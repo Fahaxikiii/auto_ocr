@@ -1,6 +1,6 @@
 {
-  "name": "ttocr_auto",
-  "version": "1.0.4",
+  "name": "ttocr",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./server.js"
