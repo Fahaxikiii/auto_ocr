@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const axios = require('axios');
-const config = require('./config');
 
 let app = express();
 app.use(express.json());
@@ -24,26 +23,22 @@ const sleep = (sec) => {
     });
 };
 
-/**
- * 路由
- */
 let router = express.Router();
-router.post('/ttocr', async function (req, res) {
-    let { gt, challenge } = req.body;
-    if (!gt || !challenge) {
+router.post('/', async function (req, res) {
+    let { appkey, gt, challenge, itemid, referer } = req.body;
+    if ( !appkey || !gt || !challenge || !itemid || !referer ) {
         res.status(400).json({
-            msg: '请求必须包含gt，challenge',
+            msg: '请求必须包含appkey, gt, challenge, itemid, referer',
             data: { result: 'fail', validate: '', seccode: '' }
         });
         return;
     }
-    //提交查询
-    let params = { // 查询参数
-        appkey: config.appkey,
+    let params = {
+        appkey,
         gt,
         challenge,
-        itemid: 388,
-        referer: 'https://webstatic.mihoyo.com'
+        itemid,
+        referer
     };
     console.log('提交查询，查询参数：', params);
     let { data } = await axios.post('http://api.ttocr.com/api/recognize', params).catch((reason) => {
@@ -73,7 +68,7 @@ router.post('/ttocr', async function (req, res) {
         }
         console.log(`获取查询结果...`);
         let { data } = await axios.post('http://api.ttocr.com/api/results', {
-            appkey: config.appkey,
+            appkey: appkey,
             resultid: recognizeResult.resultid
         }).catch((reason) => {
             return { data: { status: 0, msg: 'axios请求查询结果出错' } };
@@ -106,13 +101,6 @@ router.post('/ttocr', async function (req, res) {
 
 app.use('/', router);
 
-/**
- * 创建 http 服务.
- */
 let server = http.createServer(app);
 
-/**
- * 监听端口
- */
-server.listen(config.port);
-console.log(`服务在${config.port}端口上启动成功`);
+server.listen(23333);
