@@ -6,7 +6,7 @@ let app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const port = '23333'
+const port = '23333' //设置端口
 
 let flag = true; // 全局查询开关 防止短时间内重复查询导致banip
 
