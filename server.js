@@ -6,6 +6,8 @@ let app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+const port = '23333'
+
 let flag = true; // 全局查询开关 防止短时间内重复查询导致banip
 
 const flagOff = () => { // 开关冷却
@@ -103,4 +105,4 @@ app.use('/', router);
 
 let server = http.createServer(app);
 
-server.listen(23333);
+server.listen(port);
