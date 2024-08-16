@@ -9,3 +9,4 @@ npm start后台运行
 
 go语言编写
 Linux下直接执行./ttocr
+go build ttocr ttocr.go
